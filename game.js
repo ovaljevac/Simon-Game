@@ -11,18 +11,18 @@ function nextSequence() {
     document.querySelector("#level-title").textContent = "Level " + level; 
     var randomNumber = Math.floor(Math.random() * 4);
     randomChosenColor = buttonColors[randomNumber];
-    animateButton(document.querySelector("#" + randomChosenColor));
+    animateButton(document.querySelector("#" + randomChosenColor), 200);
     playSound(randomChosenColor);
     gamePattern.push(randomChosenColor);
     console.log(gamePattern);
 }
 
 
-function animateButton (clickedButton) {
+function animateButton (clickedButton, duration) {
     clickedButton.classList.add("pressed");
     setTimeout(function () {
         clickedButton.classList.remove("pressed");
-    }, 100);
+    }, duration);
 }
 
 function playSound(buttonName) {
@@ -34,7 +34,7 @@ function handler(selectedButton) {
     userChosenColor = selectedButton.id;
     userClickedPattern.push(userChosenColor);
     checkAnswer(userClickedPattern.length - 1);
-    animateButton(selectedButton);
+    animateButton(selectedButton, 100);
     playSound(selectedButton.id);
     console.log(userClickedPattern);
 }
@@ -63,10 +63,17 @@ function checkAnswer(currentLevel) {
     }
 }
 
+function startGame() {
+    document.addEventListener("keydown", () => {
+    setTimeout(nextSequence, 400);
+}, { once: true });
+}
+
+
 function startOver() {
     level = 0;
     gamePattern = [];
-    document.addEventListener("keydown", nextSequence, { once: true });
+    startGame();
 }
 
 
@@ -75,4 +82,4 @@ buttonColors.forEach(element => {
     btn.addEventListener("click", () => handler(btn));
 });
 
-document.addEventListener("keydown", nextSequence, { once: true });
+startGame();
