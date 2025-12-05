@@ -9,6 +9,48 @@ body {
   margin:  5%;
   color: #FEF2BF;
 }
+#toggle-scores {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1rem;
+  background-color: #feca57;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#toggle-scores:hover {
+  background-color: #ffdd88;
+}
+
+#score-board {
+  width: 60%;
+  margin: 0 auto;
+  color: #FEF2BF;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1rem;
+  text-align: left;
+}
+
+
+
+#score-board h2 {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+#highscores-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+#highscores-list li {
+  margin: 4px 0;
+}
+
 
 .container {
   display: block;

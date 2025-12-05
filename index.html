@@ -10,8 +10,15 @@
 
 <body>
   <h1 id="level-title">Press A Key to Start</h1>
+  <button id="toggle-scores">Top skorovi</button>
+
+<div id="score-board" style="display: none;">
+  <h2>Top 10 igrača</h2>
+  <ol id="highscores-list"></ol>
+</div>
+
   <div class="container">
-    <div lass="row">
+    <div class="row">
 
       <div type="button" id="green" class="btn green">
 
@@ -35,7 +42,7 @@
 
   </div>
 
-  <script src="game.js"></script>
+  <script type="module" src="game.js"></script>
 </body>
 
 </html>

@@ -4,6 +4,57 @@ var gamePattern = new Array();
 var userClickedPattern = new Array();
 var level = 0;
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  push,
+  query,
+  orderByChild,
+  limitToLast,
+  onValue
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAt06Kj5avhC-C5MOMwnb_jZ244tCe1ieY",
+  authDomain: "simon-database-b496f.firebaseapp.com",
+  databaseURL: "https://simon-database-b496f-default-rtdb.firebaseio.com",
+  projectId: "simon-database-b496f",
+  storageBucket: "simon-database-b496f.appspot.com",
+  messagingSenderId: "147212191292",
+  appId: "1:147212191292:web:a62b2cff32c9bcf1566539"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const scoresRef = ref(db, "scores");
+
+function saveScore(name, score) {
+  return push(scoresRef, { name, score });
+}
+
+function subscribeHighscores() {
+  const topQuery = query(scoresRef, orderByChild("score"), limitToLast(10));
+
+  onValue(topQuery, snapshot => {
+    const data = snapshot.val();
+    const listEl = document.getElementById("highscores-list");
+    if (!listEl) return;
+
+    listEl.innerHTML = "";
+
+    if (!data) return;
+
+    const scores = Object.values(data).sort((a, b) => b.score - a.score);
+
+    scores.forEach((item, index) => {
+      const li = document.createElement("li");
+      li.textContent = `${index + 1}. ${item.name} – ${item.score}`;
+      listEl.appendChild(li);
+    });
+  });
+}
+
 
 function nextSequence() {
     userClickedPattern = [];
@@ -31,7 +82,7 @@ function playSound(buttonName) {
 }
 
 function handler(selectedButton) {
-    userChosenColor = selectedButton.id;
+    var userChosenColor = selectedButton.id;
     userClickedPattern.push(userChosenColor);
     checkAnswer(userClickedPattern.length - 1);
     animateButton(selectedButton, 100);
@@ -51,16 +102,27 @@ function checkAnswer(currentLevel) {
     }
 
 
-    else {
-        console.log("fail");
-        playSound("wrong");
-        document.getElementsByTagName("body")[0].classList.add("game-over");
-        setTimeout(function () {
-            document.getElementsByTagName("body")[0].classList.remove("game-over");
-        }, 200);
-        document.querySelector("#level-title").textContent = "Game over, Press Any Key to Restart";
-        startOver();
-    }
+   else {
+    console.log("fail");
+    playSound("wrong");
+    document.body.classList.add("game-over");
+    setTimeout(() => {
+        document.body.classList.remove("game-over");
+    }, 200);
+    const finalScore = level - 1;
+    setTimeout(() => {
+        requestAnimationFrame(() => {
+            const playerName = prompt("Game over! Unesi svoje ime:", "Anonimac");
+            if (playerName && playerName.trim() !== "") {
+                saveScore(playerName.trim(), finalScore);
+            }
+            document.querySelector("#level-title").textContent =
+                "Game over, Press Any Key to Restart";
+            startOver();
+        });
+    }, 350); 
+
+   }
 }
 
 function startGame() {
@@ -83,3 +145,17 @@ buttonColors.forEach(element => {
 });
 
 startGame();
+subscribeHighscores();
+
+const toggleBtn = document.getElementById("toggle-scores");
+const scoreBoard = document.getElementById("score-board");
+
+toggleBtn.addEventListener("click", () => {
+  if (scoreBoard.style.display === "none") {
+    scoreBoard.style.display = "block";
+  } else {
+    scoreBoard.style.display = "none";
+  }
+});
+
+
