@@ -27,6 +27,3 @@ The player repeats an increasingly long sequence of colored button flashes, and 
 - Firebase Realtime Database (test mode)  
 - GitHub Pages for hosting  
 
----
-
-## 📁 Project Structure
