@@ -25,6 +25,25 @@ body {
   background-color: #ffdd88;
 }
 
+#start-button {
+  display: block;
+  margin: 20px auto;
+  margin-bottom: 40px;
+  padding: 10px 20px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 2rem;
+  background-color: #feca57;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#start-button:hover {
+  background-color: #ffdd88;
+}
+
+
+
 #score-board {
   width: 60%;
   margin: 0 auto;

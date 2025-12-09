@@ -112,12 +112,12 @@ function checkAnswer(currentLevel) {
     const finalScore = level - 1;
     setTimeout(() => {
         requestAnimationFrame(() => {
-            const playerName = prompt("Game over! Unesi svoje ime:", "Anonimac");
+            const playerName = prompt("Game over! Insert your name:", "Anonymous");
             if (playerName && playerName.trim() !== "") {
                 saveScore(playerName.trim(), finalScore);
             }
             document.querySelector("#level-title").textContent =
-                "Game over, Press Any Key to Restart";
+                "Game over, Press Start to play again!";
             startOver();
         });
     }, 350); 
@@ -126,10 +126,12 @@ function checkAnswer(currentLevel) {
 }
 
 function startGame() {
-    document.addEventListener("keydown", () => {
+    var startBtn = document.getElementById("start-button");
+    startBtn.addEventListener("click", () => {
     setTimeout(nextSequence, 400);
 }, { once: true });
 }
+
 
 
 function startOver() {
